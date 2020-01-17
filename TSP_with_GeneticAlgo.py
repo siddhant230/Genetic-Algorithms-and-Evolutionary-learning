@@ -41,7 +41,6 @@ class nodes:
 
 def euclidean(a,b):
     return distance.euclidean((a.x,a.y),(b.x,b.y))
-
 def next_permutation(order):
     n=len(order)
     i=n-2
@@ -62,8 +61,7 @@ def next_permutation(order):
         right-=1
     return order
 
-pop_size=10
-
+pop_size=15
 def create_population():
     global cities,pop_size,fitness_arr
     population=[]
@@ -81,7 +79,6 @@ def mutation(order):
     order[a],order[b]=order[b],order[a]
     return order
 
-
 def create_new_population():
     global fitness_arr,pop_size
     best_fitness=0
@@ -96,7 +93,6 @@ def create_new_population():
         new_order=mutation(best_order)
         new_pop.append(new_order)
     return new_pop
-
 
 pygame.init()
 pygame.display.set_caption('ITERATIONS ARE {}'.format(''))
@@ -127,10 +123,12 @@ while True:
                     if e.key==K_r:
                         screen.fill((255,255,255))
                         x,y=0,0
+                        fitness_arr=[]
                         label121 = myfont.render('TRAVELLING SALESMAN PROBLEM', 5, (255,5,25))
                         screen.blit(label121,(250,20))
                         cities,order=[],[]
                         best_arr=[]
+                        population=[]
                         best_distance=10**10
                         count=0
                         iters=0
@@ -175,7 +173,6 @@ while True:
                             pygame.draw.line(screen,(255,0,255),(cities[best_arr[i]].x,cities[best_arr[i]].y),(cities[best_arr[i+1]].x,cities[best_arr[i+1]].y),8)
                             plotter(cities[best_arr[i]].x,cities[best_arr[i]].y,str(cities[best_arr[i]].val),i)
                     plotter(cities[best_arr[-1]].x,cities[best_arr[-1]].y,str(cities[best_arr[-1]].val),len(best_arr)-1)
-                    iters+=1
                 if done==False:
                     d=calc_distance(order)
                     fitness_arr[o]=1/d
@@ -199,9 +196,9 @@ while True:
                             pygame.draw.line(screen,(255,0,255),(cities[best_arr[i]].x,cities[best_arr[i]].y),(cities[best_arr[i+1]].x,cities[best_arr[i+1]].y),8)
                             plotter(cities[best_arr[i]].x,cities[best_arr[i]].y,str(cities[best_arr[i]].val),i)
                     plotter(cities[best_arr[-1]].x,cities[best_arr[-1]].y,str(cities[best_arr[-1]].val),len(best_arr)-1)
-                    iters+=1
                 pygame.display.set_caption('ITERATIONS : {}                BEST DISTANCE : {}                PERMUTATION : {}'.format(iters,best_distance,order))
             population=create_new_population()
 
         count+=1
+        #iters+=1
         pygame.display.update()
